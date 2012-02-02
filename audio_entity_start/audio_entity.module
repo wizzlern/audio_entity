@@ -1,0 +1,75 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Defines an 'Audio' Entity, used during the Wizzlern Entity training.
+ *
+ * @name Audio Entity
+ * @author you
+ */
+
+require_once dirname(__FILE__) . '/audio_entity.entity.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function audio_entity_permission() {
+  return array(
+    'administer audio entities' => array(
+      'title' => t('Administer Audio Entities'),
+      'description' => t('Perform administration tasks on Audio Entities.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function audio_entity_menu() {
+  $items['admin/structure/audio_entity/%audio_entity/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('audio_entity_form', 3),
+    'access arguments' => array('administer audio entities'),
+    'file' => 'audio_entity.admin.inc',
+  );
+  $items['admin/structure/audio_entity/%audio_entity/delete'] = array(
+    'title' => 'Delete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('audio_entity_delete_confirm', 3),
+    'access arguments' => array('administer audio entities'),
+    'file' => 'audio_entity.admin.inc',
+  );
+  $items['admin/structure/audio_entity/add'] = array(
+    'title' => 'Add an audio item',
+    'description' => 'Add an audio file',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('audio_entity_form'),
+    'access arguments' => array('administer audio entities'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'audio_entity.admin.inc',
+  );
+  $items['admin/structure/audio_entity'] = array(
+    'title' => 'Audio Entities',
+    'description' => 'List, manage and configure Audio files.',
+    'page callback' => 'audio_entities_overview',
+    'access arguments' => array('administer audio entities'),
+    'file' => 'audio_entity.admin.inc',
+  );
+  $items['admin/structure/audio_entity/list'] = array(
+    'title' => 'List',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  return $items;
+}
+
+/**
+ * Helper function -- Returns all Audio items.
+ */
+function _audio_entity_load_all() {
+  $query = db_select('audio_entity', 'a');
+  $aids = $query->fields('a', array('aid'))->execute()->fetchCol();
+  return audio_entity_load_multiple($aids);
+}

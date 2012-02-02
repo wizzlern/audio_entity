@@ -1,0 +1,11 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Defines an 'Audio' Entity, used during the Wizzlern Entity training.
+ *
+ * @name Audio Entity
+ * @author you
+ */
+

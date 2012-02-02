@@ -1,0 +1,15 @@
+name = Audio Entity
+description = Defines an 'Audio' Entity, used during the Wizzlern Entity training.
+version = VERSION
+core = 7.x
+package = Wizzlern
+
+dependencies[] = field
+dependencies[] = field_sql_storage
+
+configure = admin/structure/audio_entity
+
+files[] = audio_entity.install
+files[] = audio_entity.module
+files[] = audio_entity.admin.inc
+files[] = audio_entity.entity.inc
